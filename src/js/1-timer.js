@@ -22,16 +22,28 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
-    if (selectedDate < new Date()) {
+
+    // Додаємо порівняння "менше або дорівнює" (<=)
+    // Це відсікає і минуле, і теперішній момент
+    if (selectedDate <= new Date()) {
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
-        position: 'topRight'
+        position: 'topRight',
       });
+      
+      // Обов'язково деактивуємо кнопку, якщо дата не валідна
       startBtn.disabled = true;
     } else {
       userSelectedDate = selectedDate;
       startBtn.disabled = false;
+      
+      // Можна додати успішне сповіщення (опціонально)
+      iziToast.success({
+        title: 'OK',
+        message: 'Date is valid! Press Start.',
+        position: 'topRight',
+      });
     }
   },
 };
